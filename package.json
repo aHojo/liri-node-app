@@ -21,5 +21,10 @@
     "node-spotify-api": "^1.0.7",
     "request": "^2.87.0",
     "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-react": "^7.10.0"
   }
 }
