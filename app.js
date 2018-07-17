@@ -1,6 +1,9 @@
 //Docs https://www.npmjs.com/package/dotenv
 require('dotenv').config();
 
+//Work with the filesystem
+const fs = require("fs");
+
 //Docs https://www.npmjs.com/package/request
 const request = require("request");
 
@@ -10,8 +13,9 @@ const Twitter = require('twitter');
 //Docs https://www.npmjs.com/package/node-spotify-api https://developer.spotify.com/dashboard/
 const Spotify = require('node-spotify-api');
 
-//Our api keys file
+// Our api keys file
 const keys = require("./keys.js");
+
 
 let command = process.argv[2];
 
@@ -27,79 +31,101 @@ let secondArg = process.argv[4];
  * `do-what-it-says
  */
 
-/** Displays tweets when called */
-const displayTweets = function (name, count) {
-    var params = {
+
+const displayTweets = function (name, numTweets) {
+    /**
+     * Displays tweets when called
+     * @param {name} name of the user
+     * @param {count} how many tweets to display
+     */
+    let params = {
         'screen_name': name,
-        'count': count,
-    }
+        'count': numTweets
+    };
 
     let client = new Twitter({
-        consumer_key: process.env.TWITTER_CONSUMER_KEY,
-        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-        access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-        access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
+        'consumer_key': keys.twitter.consumer_key,
+        'consumer_secret': keys.twitter.consumer_secret,
+        'access_token_key': keys.twitter.access_token_key,
+        'access_token_secret': keys.twitter.access_token_secret
     });
 
     client.get("statuses/user_timeline", params, function (err, tweets, response) {
-        if (err) {
-            return console.log(err);
-        }
+        if (!err && response.statusCode === 200) {
 
-        process.stdout.write(`\n\n${tweets[0].user.name} tweets:\n`);
-        process.stdout.write('##############################################\n');
-        for (let i = 0; i < tweets.length; i++) {
-            process.stdout.write(`${tweets[i].created_at}: ${tweets[i].text}\n`);
+            process.stdout.write(`\n\n${tweets[0].user.name} tweets:\n`);
+            process.stdout.write('##############################################\n');
+            for (let i = 0; i < tweets.length; i++) {
+                process.stdout.write(`${tweets[i].created_at}: ${tweets[i].text}\n`);
+            }
+        } else {
+            return console.log(err);
         }
 
         return 0;
     });
-}
+};
 
-/**Displays spotify song information, otherwise defaults to  "The Sign" by Ace of Base*/
+
 const spotifyThisSong = function (song, artist) {
+    /**
+     * Displays spotify song information, otherwise defaults to  "The Sign" by Ace of Base
+     * @param {song} Song to be searched
+     * @param {artist} optional artist name.
+    */
+    let spotSong = song
+    .toUpperCase()
+    .split(" ")
+    .join("+");
 
-    let spotSong = song.toUpperCase().split(" ").join("+");
     let url = '';
-    
-    if(typeof artist === 'undefined'){
-        url = 'https://api.spotify.com/v1/search' + '?q=' + spotSong + '&type=track' + '&limit=1';
+
+    if (typeof artist === 'undefined') {
+        url = `https://api.spotify.com/v1/search?q=${spotSong}&type=track&limit=1`;
     } else {
-        let spotArtist = artist.toUpperCase().split(" ").join("+");
-        url = 'https://api.spotify.com/v1/search' + '?q=' + spotSong + '%20' + 'artist:' + spotArtist + '&type=track' + '&limit=1';
+        let spotArtist = artist
+        .toUpperCase()
+        .split(" ")
+        .join("+");
+
+        url = `https://api.spotify.com/v1/search?q=${spotSong}%20artist:${spotArtist}&type=track&limit=1`;
     }
     console.log(url);
     const spotify = new Spotify({
-        id: process.env.SPOTIFY_CLIENT_ID,
-        secret: process.env.SPOTIFY_SECRET,
+        'id': keys.spotify.id,
+        'secret': keys.spotify.secret
     });
 
     spotify.request(url).then(function (data) {
-        let artist = data.tracks.items[0].artists[0].name;
-        let song = data.tracks.items[0].name;
-        let preview_url = data.tracks.items[0].preview_url;
+        let spotArtist = data.tracks.items[0].artists[0].name;
+        let songQuery = data.tracks.items[0].name;
+        let previewUrl = data.tracks.items[0].preview_url;
         let album = data.tracks.items[0].album.name;
         let spotUrl = data.tracks.items[0].external_urls.spotify;
-        
-        if(preview_url !== null) {
-            process.stdout.write(`\n Artist: ${artist}\nSong: ${song}\nURL: ${preview_url}\nAlbum: ${album}\n`);
+
+        if (previewUrl !== null) {
+            process.stdout.write(`\nArtist: ${spotArtist}\nSong: ${songQuery}\nURL: ${previewUrl}\nAlbum: ${album}\n`);
         } else {
-            process.stdout.write(`\n Artist: ${artist}\nSong: ${song}\nURL: ${spotUrl}\nAlbum: ${album}\n`);
+            process.stdout.write(`\nArtist: ${spotArtist}\nSong: ${songQuery}\nURL: ${spotUrl}\nAlbum: ${album}\n`);
         }
 
     });
-}
+};
 
-/**Search for a movie on omdb*/
-const getMovie = function(title) {
-    
+
+const getMovie = function (title) {
+    /**
+     * Search for a movie on omdb
+     * @param {title} Name of movie to be searched.
+    */
+
     let key = process.env.OMDB_API_KEY;
-    let url = "http://www.omdbapi.com/?t=" + title + "&apikey=" + key //&y=2017"
-    
-    request(url, function(err, response, body) {
+    let url = `http://www.omdbapi.com/?t=${title}&apikey=${key}`;
 
-        if(!err && response.statusCode === 200){
-            //working
+    request(url, function (err, response, body) {
+
+        if (!err && response.statusCode === 200) {
+            //Working
             let data = JSON.parse(body);
             let movie = data.Title;
             let release = data.Year;
@@ -108,11 +134,47 @@ const getMovie = function(title) {
             let Language = data.Language;
             let plot = data.Plot;
             let actors = data.Actors;
+
             process.stdout.write(`Title: ${movie}\nRelease Year: ${release}\nRating: ${rating}\nCountry: ${country}\nLanguage: ${Language}\nSummary: ${plot}\nActors: ${actors}`);
         }
-        
+
     });
-}
+};
+
+
+const randomCommand = function () {
+    fs.readFile("./logs/random.txt", "UTF-8", function (err, data) {
+    let commands = [
+        'movie-this',
+        'spotify-this-song',
+        'my-tweets'
+    ];
+    let storedData = data.split("\n");
+
+    storedData = storedData.toString().split(",");
+
+    let randCmd = commands[Math.floor(Math.random() * commands.length)];
+
+    if(err) {
+        console.log(err);
+    }
+    if(randCmd === "spotify-this-song") {
+        let index = storedData.indexOf("spotify-this-song");
+        let songName = storedData[index + 1];
+        let artistName = storedData[index + 2];
+
+        spotifyThisSong(songName, artistName);
+    } else if (randCmd === "movie-this") {
+        let index = storedData.indexOf('movie-this');
+        let movie = storedData[index + 1];
+
+        getMovie(movie);
+    } else {
+        displayTweets();
+    }
+
+    });
+};
 
 switch (command) {
     case 'help':
@@ -130,24 +192,25 @@ switch (command) {
          * The album that the song is from
          * If no song is provided then your program will default to "The Sign" by Ace of Base
          */
-        if(firstArg && secondArg){
+        if (firstArg && secondArg) {
             process.stdout.write(`Searching for ${firstArg} by ${secondArg}....\n\n`);
             spotifyThisSong(firstArg, secondArg);
-        } else if(firstArg) {
+        } else if (firstArg) {
             process.stdout.write(`Searching for ${firstArg}....\n\n`);
             spotifyThisSong(firstArg);
-        }   else {
+        } else {
             process.stdout.write(`No song  given defaulting to The Sign by Ace of Base....\n\n`);
             spotifyThisSong("the sign", "ace of base");
         }
         break;
     case 'movie-this':
-        /* TODO
-         * This will output the following information to your terminal/bash window:
-         * If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
-         */
-        getMovie(firstArg);
-        
+
+        if(firstArg) {
+            getMovie(firstArg);
+        } else {
+            getMovie("Mr. Nobody");
+        }
+
         break;
     case 'do-what-it-says':
         /* TODO
@@ -155,9 +218,10 @@ switch (command) {
          * It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
          * Feel free to change the text in that document to test out the feature for other commands.
          */
+        randomCommand();
         break;
     default:
-        //TODO Display list of commands if not in this list
+    //TODO Display list of commands if not in this list
 }
 
 /*
