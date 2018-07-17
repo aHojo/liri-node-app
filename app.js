@@ -131,11 +131,11 @@ switch (command) {
          * If no song is provided then your program will default to "The Sign" by Ace of Base
          */
         if(firstArg && secondArg){
-            process.stdout.write(`Searching for ${query} by ${query2}....\n\n`);
-            spotifyThisSong(query, query2);
-        } else if(query) {
-            process.stdout.write(`Searching for ${query}....\n\n`);
-            spotifyThisSong(query);
+            process.stdout.write(`Searching for ${firstArg} by ${secondArg}....\n\n`);
+            spotifyThisSong(firstArg, secondArg);
+        } else if(firstArg) {
+            process.stdout.write(`Searching for ${firstArg}....\n\n`);
+            spotifyThisSong(firstArg);
         }   else {
             process.stdout.write(`No song  given defaulting to The Sign by Ace of Base....\n\n`);
             spotifyThisSong("the sign", "ace of base");
