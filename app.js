@@ -7,65 +7,17 @@ const fs = require("fs");
 //Docs https://www.npmjs.com/package/request
 const request = require("request");
 
-//Docs https://www.npmjs.com/package/twitter
-const Twitter = require('twitter');
-
 //Docs https://www.npmjs.com/package/node-spotify-api https://developer.spotify.com/dashboard/
 const Spotify = require('node-spotify-api');
 
 // Our api keys file
 const keys = require("./keys.js");
-
+let tweets = require("./tweets.js");
 
 let command = process.argv[2];
 
 let firstArg = process.argv[3];
 let secondArg = process.argv[4];
-
-
-/* TODO commands from command line
- * help
- * `my-tweets`
- * `spotify-this-song`
- * `movie-this`
- * `do-what-it-says
- */
-
-
-const displayTweets = function (name, numTweets) {
-    /**
-     * Displays tweets when called
-     * @param {name} name of the user
-     * @param {count} how many tweets to display
-     */
-    let params = {
-        'screen_name': name,
-        'count': numTweets
-    };
-
-    let client = new Twitter({
-        'consumer_key': keys.twitter.consumer_key,
-        'consumer_secret': keys.twitter.consumer_secret,
-        'access_token_key': keys.twitter.access_token_key,
-        'access_token_secret': keys.twitter.access_token_secret
-    });
-
-    client.get("statuses/user_timeline", params, function (err, tweets, response) {
-        if (!err && response.statusCode === 200) {
-
-            process.stdout.write(`\n\n${tweets[0].user.name} tweets:\n`);
-            process.stdout.write('##############################################\n');
-            for (let i = 0; i < tweets.length; i++) {
-                process.stdout.write(`${tweets[i].created_at}: ${tweets[i].text}\n`);
-            }
-        } else {
-            return console.log(err);
-        }
-
-        return 0;
-    });
-};
-
 
 const spotifyThisSong = function (song, artist) {
     /**
@@ -81,14 +33,14 @@ const spotifyThisSong = function (song, artist) {
     let url = '';
 
     if (typeof artist === 'undefined') {
-        url = `https://api.spotify.com/v1/search?q=${spotSong}&type=track&limit=1`;
+        url = `https://api.spotify.com/v1/search?q="${spotSong}"&type=track&limit=1`;
     } else {
         let spotArtist = artist
         .toUpperCase()
         .split(" ")
         .join("+");
 
-        url = `https://api.spotify.com/v1/search?q=${spotSong}%20artist:${spotArtist}&type=track&limit=1`;
+        url = `https://api.spotify.com/v1/search?q="${spotSong}"%20artist:${spotArtist}&type=track&limit=1`;
     }
     console.log(url);
     const spotify = new Spotify({
@@ -141,7 +93,6 @@ const getMovie = function (title) {
     });
 };
 
-
 const randomCommand = function () {
     fs.readFile("./logs/random.txt", "UTF-8", function (err, data) {
     let commands = [
@@ -170,7 +121,7 @@ const randomCommand = function () {
 
         getMovie(movie);
     } else {
-        displayTweets();
+        tweets();
     }
 
     });
@@ -178,20 +129,18 @@ const randomCommand = function () {
 
 switch (command) {
     case 'help':
-        //TODO Display a list of commands and their uses.
+        process.stdout.write(`\nUSAGE:\nnode command\n\n`);
+        process.stdout.write(`COMMANDS:\n`);
+        process.stdout.write(`help - Display this message\n\nmy-tweets - Display KidLiri's top 20 tweets\n\n`);
+        process.stdout.write(`spotify-this-song 'song' ['artist']\n    Arguments passed must be surrounded in quotations.\n\n`);
+        process.stdout.write(`do-what-it-says - performs a random command with a preset search condition\n\n`);
         break;
     case 'my-tweets':
         //TODO format the time of the tweets
-        displayTweets('KidLiri', '20');
+        tweets('KidLiri', '20');
         break;
     case "spotify-this-song":
-        /*TODO This will show the following information about the song in your terminal/bash window
-         * Artist(s)
-         * The song's name
-         * A preview link of the song from Spotify
-         * The album that the song is from
-         * If no song is provided then your program will default to "The Sign" by Ace of Base
-         */
+
         if (firstArg && secondArg) {
             process.stdout.write(`Searching for ${firstArg} by ${secondArg}....\n\n`);
             spotifyThisSong(firstArg, secondArg);
@@ -213,15 +162,16 @@ switch (command) {
 
         break;
     case 'do-what-it-says':
-        /* TODO
-         * Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
-         * It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
-         * Feel free to change the text in that document to test out the feature for other commands.
-         */
         randomCommand();
         break;
     default:
     //TODO Display list of commands if not in this list
+        process.stdout.write(`\nUSAGE:\nnode command\n\n`);
+        process.stdout.write(`COMMANDS:\n`);
+        process.stdout.write(`help - Display this message\n\nmy-tweets - Display KidLiri's top 20 tweets\n\n`);
+        process.stdout.write(`spotify-this-song 'song' ['artist']\n    Arguments passed must be surrounded in quotations.\n\n`);
+        process.stdout.write(`do-what-it-says - performs a random command with a preset search condition\n\n`);
+
 }
 
 /*
