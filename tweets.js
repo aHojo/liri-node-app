@@ -1,6 +1,11 @@
 require('dotenv').config();
 const Twitter = require('twitter');
 const keys = require("./keys.js");
+// var fs = require('fs');
+
+let LOG = require("./logit.js");
+let log = new LOG();
+
 const displayTweets = function (name, numTweets) {
     /**
      * Displays tweets when called
@@ -21,12 +26,17 @@ const displayTweets = function (name, numTweets) {
 
     client.get("statuses/user_timeline", params, function (err, tweets, response) {
         if (!err && response.statusCode === 200) {
+            let twitters = []
             process.stdout.write('\n----------------------------------------------------------');
-            process.stdout.write(`\n\n${tweets[0].user.name} tweets:\n`);
+            twitters.push(`\n\n${tweets[0].user.name} tweets:`);
             for (let i = 0; i < tweets.length; i++) {
-                process.stdout.write(`${tweets[i].created_at}: ${tweets[i].text}\n`);
+                // process.stdout.write(`${tweets[i].created_at}: ${tweets[i].text}\n`);
+                twitters.push(`${tweets[i].created_at}: ${tweets[i].text}`);
             }
+            console.log(twitters.join("\n"));
             process.stdout.write('\n----------------------------------------------------------');
+            
+            log.logData(twitters.join("\n"));
         } else {
             return console.log(err);
         }

@@ -53,30 +53,35 @@ const spotifyThisSong = function (song, artist) {
     });
 
     spotify.request(url).then(function (data) {
-        // let spotArtist = data.tracks.items[0].artists[0].name;
-        // let songQuery = data.tracks.items[0].name;
-        // let previewUrl = data.tracks.items[0].preview_url;
-        // let album = data.tracks.items[0].album.name;
-        // let spotUrl = data.tracks.items[0].external_urls.spotify;
-        var songInfo = [
-            `Artist: ${data.tracks.items[0].artists[0].name}`,
-            `Song: ${data.tracks.items[0].name}`,
-            `Preview: ${data.tracks.items[0].preview_url}`,
-            `Album ${data.tracks.items[0].album.name}`,
-            `Url: ${data.tracks.items[0].external_urls.spotify}`
-        ].join('\n');
-        log.logData(songInfo);
+        
+       let previewUrl = data.tracks.items[0].preview_url;
+        
 
-        // if (previewUrl !== null) {
-        //     process.stdout.write('\n----------------------------------------------------------');
-        //     process.stdout.write(`\nArtist: ${spotArtist}\nSong: ${songQuery}\nURL: ${previewUrl}\nAlbum: ${album}\n`);
-        //     process.stdout.write('\n----------------------------------------------------------');
-        // } else {
-        //     process.stdout.write('\n----------------------------------------------------------');
-        //     process.stdout.write(`\nArtist: ${spotArtist}\nSong: ${songQuery}\nURL: ${spotUrl}\nAlbum: ${album}\n`);
-        //     process.stdout.write('\n----------------------------------------------------------');
-        // }
-        process.stdout.write(`\n${songInfo}\n`);
+        if (previewUrl === null) {
+            var songInfo = [
+                `Artist: ${data.tracks.items[0].artists[0].name}`,
+                `Song: ${data.tracks.items[0].name}`,
+                `Album ${data.tracks.items[0].album.name}`,
+                `Url: ${data.tracks.items[0].external_urls.spotify}`
+            ].join('\n');
+            log.logData(songInfo);
+            process.stdout.write('\n----------------------------------------------------------');
+            process.stdout.write(`\n${songInfo}\n`);
+            process.stdout.write('\n----------------------------------------------------------');
+        } else {
+            var songInfo = [
+                `Artist: ${data.tracks.items[0].artists[0].name}`,
+                `Song: ${data.tracks.items[0].name}`,
+                `Preview: ${data.tracks.items[0].preview_url}`,
+                `Album ${data.tracks.items[0].album.name}`,
+                `Url: ${data.tracks.items[0].external_urls.spotify}`
+            ].join('\n');
+            log.logData(songInfo);
+            process.stdout.write('\n----------------------------------------------------------');
+            process.stdout.write(`\n${songInfo}\n`);
+            process.stdout.write('----------------------------------------------------------');
+        }
+       
 
     });
 };
@@ -103,9 +108,21 @@ const getMovie = function (title) {
             let Language = data.Language;
             let plot = data.Plot;
             let actors = data.Actors;
+            let movieInfo = [
+                `Title: ${movie}`,
+                `Release Year: ${release}`,
+                `Rating: ${rating}`,
+                `Country: ${country}`,
+                `Language: ${Language}`,
+                `Actors: ${actors}`,
+                `Summary: ${plot}` 
+            ].join('\n');
+
+            log.logData(movieInfo);
 
             process.stdout.write('\n----------------------------------------------------------\n');
-            process.stdout.write(`Title: ${movie}\nRelease Year: ${release}\nRating: ${rating}\nCountry: ${country}\nLanguage: ${Language}\nSummary: ${plot}\nActors: ${actors}`);
+            // process.stdout.write(`Title: ${movie}\nRelease Year: ${release}\nRating: ${rating}\nCountry: ${country}\nLanguage: ${Language}\nSummary: ${plot}\nActors: ${actors}`);
+            process.stdout.write(`${movieInfo}`);
             process.stdout.write('\n----------------------------------------------------------\n');
         }
 
@@ -161,26 +178,29 @@ switch (command) {
     case "spotify-this-song":
 
         if (firstArg && secondArg) {
-            process.stdout.write(`Searching for ${firstArg} by ${secondArg}....\n\n`);
+            process.stdout.write(`\nSearching for ${firstArg} by ${secondArg}....\n\n`);
             spotifyThisSong(firstArg, secondArg);
         } else if (firstArg) {
-            process.stdout.write(`Searching for ${firstArg}....\n\n`);
+            process.stdout.write(`\nSearching for ${firstArg}....\n\n`);
             spotifyThisSong(firstArg);
         } else {
-            process.stdout.write(`No song  given defaulting to The Sign by Ace of Base....\n\n`);
+            process.stdout.write(`\nNo song  given defaulting to The Sign by Ace of Base....\n\n`);
             spotifyThisSong("the sign", "ace of base");
         }
         break;
     case 'movie-this':
 
         if(firstArg) {
+            process.stdout.write(`\nSearching for ${firstArg}....\n\n`);
             getMovie(firstArg);
         } else {
+            process.stdout.write(`\nNo movie given searching for Mr. Nobody....\n\n`);
             getMovie("Mr. Nobody");
         }
 
         break;
     case 'do-what-it-says':
+        process.stdout.write(`\nPicking a command...\n\n`);
         randomCommand();
         break;
     default:

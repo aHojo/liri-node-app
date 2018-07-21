@@ -22,3 +22,54 @@ Preview: https://p.scdn.co/mp3-preview/e72a05dc3f69c891e3390c3ceaa77fad02f6b5f6?
 Album The Hits--Chapter One
 Url: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6
 ------------------------------------------
+Title: Wreck-It Ralph
+Release Year: 2012
+Rating: 7.7
+Country: USA
+Language: English
+Actors: John C. Reilly, Sarah Silverman, Jack McBrayer, Jane Lynch
+Summary: A video game villain wants to be a hero and sets out to fulfill his dream, but his quest brings havoc to the whole arcade where he lives.
+------------------------------------------
+Artist: Linkin Park
+Song: In The End
+Preview: https://p.scdn.co/mp3-preview/993540fd7aa1a0a44bb0d1b2c82092578c831b07?cid=c2db692c0fee4bdf93d49ed5159d2ecb
+Album Hybrid Theory (Bonus Track Version)
+Url: https://open.spotify.com/track/60a0Rd6pjrkxjPbaKzXjfq
+------------------------------------------
+Artist: Linkin Park
+Song: In The End
+Preview: https://p.scdn.co/mp3-preview/993540fd7aa1a0a44bb0d1b2c82092578c831b07?cid=c2db692c0fee4bdf93d49ed5159d2ecb
+Album Hybrid Theory (Bonus Track Version)
+Url: https://open.spotify.com/track/60a0Rd6pjrkxjPbaKzXjfq
+------------------------------------------
+Artist: Linkin Park
+Song: In The End
+Preview: https://p.scdn.co/mp3-preview/993540fd7aa1a0a44bb0d1b2c82092578c831b07?cid=c2db692c0fee4bdf93d49ed5159d2ecb
+Album Hybrid Theory (Bonus Track Version)
+Url: https://open.spotify.com/track/60a0Rd6pjrkxjPbaKzXjfq
+------------------------------------------
+Artist: Linkin Park
+Song: In The End
+Preview: https://p.scdn.co/mp3-preview/993540fd7aa1a0a44bb0d1b2c82092578c831b07?cid=c2db692c0fee4bdf93d49ed5159d2ecb
+Album Hybrid Theory (Bonus Track Version)
+Url: https://open.spotify.com/track/60a0Rd6pjrkxjPbaKzXjfq
+------------------------------------------
+Tue Jul 17 18:59:12 +0000 2018: Who's afraid of git pull requests and forking?
+Tue Jul 17 17:09:16 +0000 2018: I could spend all day using NodeJs!
+Tue Jul 17 16:58:52 +0000 2018: The command line is essential to a Developer's toolset. Automation, and a more fluent workflow are just a taste of the benefits.
+Tue Jul 17 16:52:38 +0000 2018: Why are ajax calls so fun when working with REST Api's?
+Mon Jul 16 02:11:42 +0000 2018: What language compliments Javascript? I would like to learn C++ since node is Google's V8 runtime environment place… https://t.co/kCHppP0MOC
+Mon Jul 16 02:10:24 +0000 2018: What's your most favorite coding language?
+Sun Jul 15 22:25:09 +0000 2018: NodeJs is fun!
+------------------------------------------
+
+
+LiriTheKid tweets:
+Tue Jul 17 18:59:12 +0000 2018: Who's afraid of git pull requests and forking?
+Tue Jul 17 17:09:16 +0000 2018: I could spend all day using NodeJs!
+Tue Jul 17 16:58:52 +0000 2018: The command line is essential to a Developer's toolset. Automation, and a more fluent workflow are just a taste of the benefits.
+Tue Jul 17 16:52:38 +0000 2018: Why are ajax calls so fun when working with REST Api's?
+Mon Jul 16 02:11:42 +0000 2018: What language compliments Javascript? I would like to learn C++ since node is Google's V8 runtime environment place… https://t.co/kCHppP0MOC
+Mon Jul 16 02:10:24 +0000 2018: What's your most favorite coding language?
+Sun Jul 15 22:25:09 +0000 2018: NodeJs is fun!
+------------------------------------------
