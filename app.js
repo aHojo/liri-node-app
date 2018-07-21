@@ -10,6 +10,10 @@ const request = require("request");
 //Docs https://www.npmjs.com/package/node-spotify-api https://developer.spotify.com/dashboard/
 const Spotify = require('node-spotify-api');
 
+let LOG = require("./logit.js");
+
+let log = new LOG();
+
 // Our api keys file
 const keys = require("./keys.js");
 let tweets = require("./tweets.js");
@@ -49,21 +53,30 @@ const spotifyThisSong = function (song, artist) {
     });
 
     spotify.request(url).then(function (data) {
-        let spotArtist = data.tracks.items[0].artists[0].name;
-        let songQuery = data.tracks.items[0].name;
-        let previewUrl = data.tracks.items[0].preview_url;
-        let album = data.tracks.items[0].album.name;
-        let spotUrl = data.tracks.items[0].external_urls.spotify;
+        // let spotArtist = data.tracks.items[0].artists[0].name;
+        // let songQuery = data.tracks.items[0].name;
+        // let previewUrl = data.tracks.items[0].preview_url;
+        // let album = data.tracks.items[0].album.name;
+        // let spotUrl = data.tracks.items[0].external_urls.spotify;
+        var songInfo = [
+            `Artist: ${data.tracks.items[0].artists[0].name}`,
+            `Song: ${data.tracks.items[0].name}`,
+            `Preview: ${data.tracks.items[0].preview_url}`,
+            `Album ${data.tracks.items[0].album.name}`,
+            `Url: ${data.tracks.items[0].external_urls.spotify}`
+        ].join('\n');
+        log.logData(songInfo);
 
-        if (previewUrl !== null) {
-            process.stdout.write('\n----------------------------------------------------------');
-            process.stdout.write(`\nArtist: ${spotArtist}\nSong: ${songQuery}\nURL: ${previewUrl}\nAlbum: ${album}\n`);
-            process.stdout.write('\n----------------------------------------------------------');
-        } else {
-            process.stdout.write('\n----------------------------------------------------------');
-            process.stdout.write(`\nArtist: ${spotArtist}\nSong: ${songQuery}\nURL: ${spotUrl}\nAlbum: ${album}\n`);
-            process.stdout.write('\n----------------------------------------------------------');
-        }
+        // if (previewUrl !== null) {
+        //     process.stdout.write('\n----------------------------------------------------------');
+        //     process.stdout.write(`\nArtist: ${spotArtist}\nSong: ${songQuery}\nURL: ${previewUrl}\nAlbum: ${album}\n`);
+        //     process.stdout.write('\n----------------------------------------------------------');
+        // } else {
+        //     process.stdout.write('\n----------------------------------------------------------');
+        //     process.stdout.write(`\nArtist: ${spotArtist}\nSong: ${songQuery}\nURL: ${spotUrl}\nAlbum: ${album}\n`);
+        //     process.stdout.write('\n----------------------------------------------------------');
+        // }
+        process.stdout.write(`\n${songInfo}\n`);
 
     });
 };
@@ -142,7 +155,7 @@ switch (command) {
         process.stdout.write(`do-what-it-says - performs a random command with a preset search condition\n\n`);
         break;
     case 'my-tweets':
-        //TODO format the time of the tweets
+
         tweets('KidLiri', '20');
         break;
     case "spotify-this-song":
@@ -171,7 +184,6 @@ switch (command) {
         randomCommand();
         break;
     default:
-    //TODO Display list of commands if not in this list
         process.stdout.write(`\nUSAGE:\nnode command\n\n`);
         process.stdout.write(`COMMANDS:\n`);
         process.stdout.write(`help - Display this message\n\nmy-tweets - Display KidLiri's top 20 tweets\n\n`);
