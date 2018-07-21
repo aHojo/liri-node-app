@@ -42,7 +42,7 @@ const spotifyThisSong = function (song, artist) {
 
         url = `https://api.spotify.com/v1/search?q="${spotSong}"%20artist:${spotArtist}&type=track&limit=1`;
     }
-    console.log(url);
+
     const spotify = new Spotify({
         'id': keys.spotify.id,
         'secret': keys.spotify.secret
@@ -56,9 +56,13 @@ const spotifyThisSong = function (song, artist) {
         let spotUrl = data.tracks.items[0].external_urls.spotify;
 
         if (previewUrl !== null) {
+            process.stdout.write('\n----------------------------------------------------------');
             process.stdout.write(`\nArtist: ${spotArtist}\nSong: ${songQuery}\nURL: ${previewUrl}\nAlbum: ${album}\n`);
+            process.stdout.write('\n----------------------------------------------------------');
         } else {
+            process.stdout.write('\n----------------------------------------------------------');
             process.stdout.write(`\nArtist: ${spotArtist}\nSong: ${songQuery}\nURL: ${spotUrl}\nAlbum: ${album}\n`);
+            process.stdout.write('\n----------------------------------------------------------');
         }
 
     });
@@ -87,7 +91,9 @@ const getMovie = function (title) {
             let plot = data.Plot;
             let actors = data.Actors;
 
+            process.stdout.write('\n----------------------------------------------------------\n');
             process.stdout.write(`Title: ${movie}\nRelease Year: ${release}\nRating: ${rating}\nCountry: ${country}\nLanguage: ${Language}\nSummary: ${plot}\nActors: ${actors}`);
+            process.stdout.write('\n----------------------------------------------------------\n');
         }
 
     });
