@@ -73,3 +73,17 @@ Mon Jul 16 02:11:42 +0000 2018: What language compliments Javascript? I would li
 Mon Jul 16 02:10:24 +0000 2018: What's your most favorite coding language?
 Sun Jul 15 22:25:09 +0000 2018: NodeJs is fun!
 ------------------------------------------
+Title: Wreck-It Ralph
+Release Year: 2012
+Rating: 7.7
+Country: USA
+Language: English
+Actors: John C. Reilly, Sarah Silverman, Jack McBrayer, Jane Lynch
+Summary: A video game villain wants to be a hero and sets out to fulfill his dream, but his quest brings havoc to the whole arcade where he lives.
+------------------------------------------
+Artist: Linkin Park
+Song: In The End
+Preview: https://p.scdn.co/mp3-preview/993540fd7aa1a0a44bb0d1b2c82092578c831b07?cid=c2db692c0fee4bdf93d49ed5159d2ecb
+Album Hybrid Theory (Bonus Track Version)
+Url: https://open.spotify.com/track/60a0Rd6pjrkxjPbaKzXjfq
+------------------------------------------

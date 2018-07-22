@@ -5,10 +5,10 @@
 COMMANDS:
 
 help \- Display this message
-\***
+***
 my-tweets - Display KidLiri's top 20 tweets
-\***
+***
 spotify\-this\-song 'song' \[artist'\]
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arguments passed must be surrounded in quotations.
-\***
+***
 do\-what\-it\-says \- performs a random command with a preset search condition
